@@ -1,4 +1,6 @@
 import { Box, Button, Text, TextField, Image } from '@skynexui/components';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 import appConfig from '../config.json';
 
 function GlobalStyle() {
@@ -60,7 +62,8 @@ function Titulo(props) {
 // export default HomePage
 
 export default function PaginaInicial() {
-    const username = 'evansouzaa';
+    const [username, setUsername] = useState("evansouzaa") //valor passado é default utilizando set state do react
+    const router = useRouter();
 
     return (
         <>
@@ -107,6 +110,10 @@ export default function PaginaInicial() {
                     {/* Formulário */}
                     <Box
                         as="form"
+                        onSubmit={function(event){
+                            event.preventDefault()
+                            router.push('/chat')
+                        }}
                         styleSheet={{
                             display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
                             width: { xs: '100%', sm: '50%' }, textAlign: 'center', marginBottom: '32px',
@@ -114,11 +121,15 @@ export default function PaginaInicial() {
                     >
                         <Titulo tag="h2">Bem vindo Astronauta!</Titulo>
                         <Text variant="body3" styleSheet={{ marginBottom: '32px', color: appConfig.theme.colors.neutrals[100] }}>
-                            {appConfig.name}
+                            {`${appConfig.name}  ${username}`}
                         </Text>
 
                         <TextField
                             fullWidth
+                            onChange={function(event){
+                                const valor = event.target.value;
+                                setUsername(valor)
+                            }}
                             textFieldColors={{
                                 neutral: {
                                     textColor: appConfig.theme.colors.primary[100],
