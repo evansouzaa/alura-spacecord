@@ -1,23 +1,55 @@
 import { Box, Text, TextField, Image, Button } from '@skynexui/components';
 import React, { useState } from 'react';
 import appConfig from '../config.json';
+import { createClient } from '@supabase/supabase-js'
+import PaginaInicial from '.';
+
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzMwNzU2NiwiZXhwIjoxOTU4ODgzNTY2fQ.EWi74yt5k1aH8hrPJigzxdu9wZBofz23bZPFCz8PyXI";
+const SUPABASE_URL = "https://cerueryekaquzwovhqob.supabase.co";
+
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 export default function ChatPage() {
     // Sua lógica vai aqui
     const [mensagem, setMensagem] = React.useState("");
     const [listaMensagens, setListaMensagens] = useState([]);
 
+    React.useEffect(function () {
+        supabaseClient
+            .from('mensagens')
+            .select('*')
+            .order('id', { ascending: false })
+            .then(function ({ data }) {
+                setListaMensagens(data)
+            })
+    }, [])
+
     function handleNovaMensagem(novaMensagem) {
         const mensagem = { // cria objeto e passa a mensagem como parametro
-            id: listaMensagens.length + 1,
+            //id: listaMensagens.length + 1,
             de: 'evansouzaa',
             texto: novaMensagem
         }
-        setListaMensagens([ // manda um array com os proprios itens
-            mensagem, // adiciona outro item no array { um objeto }
-            ...listaMensagens // ...espalha os itens do proprio array   
-        ])
+
+        supabaseClient
+            .from('mensagens')
+            .insert([
+                mensagem
+            ])
+            .then(function ({ data }) {
+                setListaMensagens([ // manda um array com os proprios itens
+                    mensagem, // adiciona outro item no array { um objeto }
+                    ...listaMensagens // ...espalha os itens do proprio array   
+                ])
+            })
+
+        // setListaMensagens([ // manda um array com os proprios itens
+        //     mensagem, // adiciona outro item no array { um objeto }
+        //     ...listaMensagens // ...espalha os itens do proprio array   
+        // ])
     }
+
+
 
     // ./Sua lógica vai aqui
     return (
@@ -143,7 +175,7 @@ function MessageList(props) {
         <Box
             tag="ul"
             styleSheet={{
-                overflow: 'hidden',
+                overflowX: 'hidden',
                 display: 'flex',
                 flexDirection: 'column-reverse',
                 flex: 1,
@@ -154,7 +186,7 @@ function MessageList(props) {
             {props.mensagens.map(function (mensagem) {
                 return (
                     <Text
-                        key={mensagem.id}
+                        key={mensagem.id + Math.random()}
                         tag="li"
                         styleSheet={{
                             borderRadius: '5px',
@@ -178,7 +210,7 @@ function MessageList(props) {
                                     display: 'inline-block',
                                     marginRight: '8px',
                                 }}
-                                src={`https://github.com/evansouzaa.png`}
+                                src={`https://github.com/${mensagem.de}.png`}
                             />
                             <Text tag="strong">
                                 {mensagem.de}
