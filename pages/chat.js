@@ -116,7 +116,13 @@ export default function ChatPage() {
 function Header() {
     return (
         <>
-            <Box styleSheet={{ width: '100%', marginBottom: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} >
+            <Box styleSheet={{
+                width: '100%',
+                marginBottom: '16px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+            }} >
                 <Text variant='heading5'>
                     Chat SpaceX privado
                 </Text>
@@ -132,7 +138,7 @@ function Header() {
 }
 
 function MessageList(props) {
-    const  [prop, setDel] = React.useState({})
+    const [prop, setDel] = React.useState({})
     return (
         <Box
             tag="ul"
@@ -189,17 +195,17 @@ function MessageList(props) {
                             </Text>
                             <Button
                                 onClick={function (evento) {
-                                    const msgDeletada = props.mensagens.filter(function(valor, index, array){
+                                    const msgDeletada = props.mensagens.filter(function (valor, index, array) {
                                         return array.splice(index, 1)
                                     })
-                                    console.log({mensagens: msgDeletada})
-                                    setDel({mensagens: msgDeletada})
+                                    console.log({ mensagens: msgDeletada })
+                                    setDel({ mensagens: msgDeletada })
                                 }}
                                 label='X'
                                 styleSheet={{
-                                    width: '5px',
-                                    height: '5px',
-                                    marginLeft: '300px',
+                                    width: '8px',
+                                    height: '8px',
+                                    marginLeft: '90%'
                                 }}
                             />
                         </Box>
