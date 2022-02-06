@@ -4,7 +4,7 @@ Olá! Me chamo **Evandro**, este projeto foi criado a partir da imersão alura q
 
 
 # Imagem do Projeto
-![Tela de login](https://github.com/evansouzaa/alura-spacecord/tree/master/assets/img/screenshot.png)
+![Tela de login](https://raw.githubusercontent.com/evansouzaa/alura-spacecord/master/assets/img/screenshot.png)
 
 
 ```
